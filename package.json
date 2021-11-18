@@ -1,0 +1,21 @@
+{
+  "name": "taller-scraping-blackfriday-nov21-workshop",
+  "version": "1.0.0",
+  "description": "Workshop about scraping. Create an API to scrap react data from some real e-commerce",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taller_scraping.git"
+  },
+  "author": "Alejandro reyes",
+  "license": "ISC",
+
+  "dependencies": {
+    "express": "^4.17.1",
+    "puppeteer": "^10.2.0"
+  }
+}
