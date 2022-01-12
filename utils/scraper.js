@@ -15,15 +15,22 @@ const extractProductData = async (url,browser) => {
 
         /********** A RELLENAR todos los page.$eval(selector, function)  *********/
         //titulo
-        //productData['name'] = await page.$eval(selector, function)
+        productData['name'] = await page.$eval('.productTitle', name=>name.innerText)
         //precio
-        //productData['price'] = await page.$eval(selector, function)
+        if(await page.$('#normalpricenumber')) {
+            // selector was found in the page
+            productData['price'] = await page.$eval('#normalpricenumber',price=>price.innerText)
+
+        } else {
+            // selector not found
+            productData['price'] = await page.$eval('#actualprice',price=>price.innerText)
+        }
         //imagenes
-        //productData['img'] = await page.$eval(selector, function)
+        productData['img'] = await page.$eval('#productmainimageitem', img=>img.src)
         //info
-        //productData['info'] = await page.$eval(selector, function)
+        productData['info'] = await page.$eval('.productextrainfo', info=>info.innerText)
         //descripción
-        //productData['description'] = await page.$eval(selector, description=>description.innerText.slice(0,200) + '...')
+        productData['description'] = await page.$eval('.productdetailinfocontainer', description=>description.innerText.slice(0,200) + '...')
         
         return productData // Devuelve los datos de un producto
     }
@@ -34,7 +41,7 @@ const extractProductData = async (url,browser) => {
     
 }
 
-
+// Para iniciar todo el scraping
 const scrap = async (url) => {
     try {
         // Creamos un array vacío scrapedData donde almacenaremos la información obtenida del scraping
@@ -55,7 +62,8 @@ const scrap = async (url) => {
         // En este caso , en el CB filtramos el array de items, guardando en un nuevo array
 
         /********** A RELLENAR page.$eval(selector, function)  *********/
-        //const tmpurls = await page.$$eval(selector,funcion)
+        //[] de URLs
+        const tmpurls = await page.$$eval('.productImage div div a', res => res.map(a=>a.href))
         
         //Quitamos los duplicados
         const urls = await tmpurls.filter((link,index) =>{ return tmpurls.indexOf(link) === index})
