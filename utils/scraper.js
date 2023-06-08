@@ -1,5 +1,7 @@
 const puppeteer = require("puppeteer");
 
+const fs = require('fs');
+
 // Creamos una función para extraer la información de cada producto
 const extractProductData = async (url,browser) => {
 
@@ -48,7 +50,7 @@ const scrap = async (url) => {
         const scrapedData = []
         // inicializamos una instancia del navegador (browser) con puppeteer.launch() y añadimos en el objeto de configuración la opción headless
         console.log("Opening the browser......");
-        const browser = await puppeteer.launch({headless:false})
+        const browser = await puppeteer.launch({headless:true})
 
         // Abrimos una nueva pestaña en el navegador creando una instancia con el método newPage() a la que llamaremos page
         const page = await browser.newPage();
@@ -88,6 +90,14 @@ const scrap = async (url) => {
        
         // cerramos el browser con el método browser.close
         await browser.close()
+
+        // Escribimos los datos en un archivo .json
+        fs.writeFile('scrapedData.json', JSON.stringify(scrapedData, null, 2), (err) => {
+            if (err) throw err;
+            console.log('Datos guardados en scrapedData.json');
+        });
+
+
         // Devolvemos el array con los productos
         return scrapedData;
 
@@ -99,4 +109,4 @@ const scrap = async (url) => {
 exports.scrap = scrap;
 
 /********** DESCOMENTAR PARA PROBAR *********/
-//scrap("https://www.coolmod.com/novedades/").then(data =>console.log(data))
+// scrap("https://www.coolmod.com/novedades/").then(data =>console.log(data))
