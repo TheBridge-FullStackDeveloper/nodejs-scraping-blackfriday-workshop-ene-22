@@ -16,14 +16,22 @@ const extractProductData = async (url,browser) => {
         // Utilizamos el método newPage.$eval(selector, function) y almacenamos en productData:
 
         /********** A RELLENAR todos los page.$eval(selector, function)  *********/
-        //titulo --> .productTitle
-        productData['name'] = await page.$eval(".productTitle", name => name.innerHTML)
-        //precio --> #normalpricenumber
-        productData['price'] = await page.$eval("#normalpricenumber", price => price.innerHTML)
-        //imagenes --> document.querySelector("#productmainimageitem").src
-        productData['img'] = await page.$eval("#productmainimageitem", img => img.src)
-        //info --> 
-        productData['info'] = await page.$eval("div.productdetailinfocontainer.smoothshadow > h2", info => info.innerHTML)
+        //titulo
+        productData['name'] = await page.$eval('.productTitle', name=>name.innerText)
+        //precio
+        if(await page.$('#normalpricenumber')) {
+            // selector was found in the page
+            productData['price'] = await page.$eval('#normalpricenumber',price=>price.innerText)
+
+        } else {
+            
+            // selector not found
+            productData['price'] = await page.$eval('#actualprice',price=>price.innerText)
+        }
+        //imagenes
+        productData['img'] = await page.$eval('#productmainimageitem', img=>img.src)
+        //info
+        productData['info'] = await page.$eval('.productextrainfo', info=>info.innerText)
         //descripción
         productData['description'] = await page.$eval('.productdetailinfocontainer', description=>description.innerText.slice(0,200) + '...')
         
