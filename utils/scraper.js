@@ -24,6 +24,7 @@ const extractProductData = async (url,browser) => {
             productData['price'] = await page.$eval('#normalpricenumber',price=>price.innerText)
 
         } else {
+            
             // selector not found
             productData['price'] = await page.$eval('#actualprice',price=>price.innerText)
         }
