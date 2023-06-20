@@ -10,7 +10,7 @@ module.exports = {
             // ---Descomenta las 2 siguientes líneas para hacer scraping---
             const products = await scraper.scrap("https://www.coolmod.com/novedades/"); 
             res.status(200).json(products);
-            // res.status(200).json({"mensaje":"Aquí irán los productos"}); // ---Comenta esta línea---
+            //res.status(200).json({"mensaje":"Aquí irán los productos"}); // ---Comenta esta línea---
 
         } catch (error) {
             res.status(404).json({})
