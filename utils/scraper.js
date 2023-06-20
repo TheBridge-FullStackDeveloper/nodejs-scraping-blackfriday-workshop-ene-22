@@ -1,5 +1,7 @@
 const puppeteer = require("puppeteer");
 
+const fs = require('fs');
+
 // Creamos una función para extraer la información de cada producto
 const extractProductData = async (url,browser) => {
 
@@ -81,6 +83,14 @@ const scrap = async (url) => {
        
         // cerramos el browser con el método browser.close
         await browser.close()
+
+        // Escribimos los datos en un archivo .json
+        fs.writeFile('scrapedData.json', JSON.stringify(scrapedData, null, 2), (err) => {
+            if (err) throw err;
+            console.log('Datos guardados en scrapedData.json');
+        });
+
+
         // Devolvemos el array con los productos
         return scrapedData;
     
@@ -92,4 +102,4 @@ const scrap = async (url) => {
 exports.scrap = scrap;
 
 /********** DESCOMENTAR PARA PROBAR *********/
-//scrap("https://www.coolmod.com/novedades/").then(data =>console.log(data))
+// scrap("https://www.coolmod.com/novedades/").then(data =>console.log(data))
