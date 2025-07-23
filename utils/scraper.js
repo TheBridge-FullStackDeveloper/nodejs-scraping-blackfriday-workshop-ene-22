@@ -18,10 +18,10 @@ const extractProductData = async (url,browser) => {
         /********** A RELLENAR todos los page.$eval(selector, function)  *********/
         //titulo --> h1
         productData['name'] = await page.$eval("h1", name => name.innerHTML)
-        //precio --> div.product-details-prices > div > span
-        productData['price'] = await page.$eval("div.product-details-prices > div > span", price => price.innerHTML)
-        //imagenes --> document.querySelector("#productmainimageitem").src
-        productData['img'] = await page.$eval("figure > img", img => img.src)[0]
+        //precio --> .product_price.int_price
+        productData['price'] = await page.$eval(".product_price", price => price.innerHTML)
+        //imagenes --> document.querySelector("figure > img").src
+        productData['img'] = await page.$eval("figure > img", img => img.src)
         //descripción
         productData['description'] = await page.$eval('.productdetailinfocontainer', description=>description.innerText.slice(0,200) + '...')
         
@@ -100,4 +100,4 @@ const scrap = async (url) => {
 exports.scrap = scrap;
 
 /********** DESCOMENTAR PARA PROBAR *********/
-// scrap("https://www.coolmod.com/novedades/").then(data =>console.log(data))
+//scrap("https://www.coolmod.com/novedades/").then(data =>console.log(data))
